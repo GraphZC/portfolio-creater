@@ -1,0 +1,15 @@
+version: '3.8'
+services:
+  mongo:
+    image: mongo:latest
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: ${MONGO_USERNAME}
+      MONGO_INITDB_ROOT_PASSWORD: ${MONGO_PASSWORD}
+    volumes:
+      - portfolio-mongodb:/mongodb
+    ports:
+      - ${MONGO_PORT}:27017
+volumes:
+  portfolio-mongodb:
+    driver: local
+
