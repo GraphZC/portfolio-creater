@@ -3,13 +3,13 @@ import { FaArrowRight } from "react-icons/fa";
 
 interface ProjectItemProps {
     projectId: string;
-    title: string;
+    name: string;
     type: string;
 }
 
 export default function ProjectItem({ 
     projectId, 
-    title, 
+    name, 
     type 
 } : ProjectItemProps) {
     return (
@@ -19,7 +19,7 @@ export default function ProjectItem({
         >
             <div>
                 <h2 className="font-medium text-2xl text-[#F7CF4C]">
-                    {title}
+                    {name}
                 </h2>
                 <p className="text-white font-extralight text-sm">
                     {type}

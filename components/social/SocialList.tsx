@@ -1,3 +1,4 @@
+import Social from "@/interface/Social";
 import { 
     FaFacebook, 
     FaGithub, 
@@ -9,13 +10,8 @@ import {
     FaTiktok 
 } from "react-icons/fa";
 
-interface SocialLink {
-    name: "facebook" | "instragram" | "line" | "linkedin" | "tiktok" | "x" | "youtube" | "github";
-    link: string;
-}
-
 interface SocialListProps {
-    socials: SocialLink[];    
+    socials: Social[];    
 }
 
 export default function SocialList({ socials } : SocialListProps) {
@@ -36,7 +32,7 @@ export default function SocialList({ socials } : SocialListProps) {
             { socials.map((social, index) => {
                 return (
                     <a 
-                        href={social.link}
+                        href={social.url}
                         target="_blank"
                         key={index}
                     >

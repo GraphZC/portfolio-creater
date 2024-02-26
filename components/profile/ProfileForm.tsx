@@ -1,28 +1,57 @@
 'use client'
 
-export default function ProfileForm() {
+import useUser from "@/api-hook/user/useUser";
+import Require from "../Require";
+import { useForm } from "react-hook-form";
+import User from "@/interface/User";
+
+interface ProfileFormProps {
+    username: string;
+    handleEdit: (user: User) => void;
+};
+
+export default function ProfileForm({ 
+    username,
+    handleEdit
+}: ProfileFormProps) {
+
+    const { data: user, isPending, error } = useUser(username);
+    const { register, handleSubmit, formState: { errors } } = useForm<User>();
+
+    if (isPending) return <div>Loading...</div>
+
+    if (error) return <div>Error: {error.message}</div>
+    
     return (
         <div>
-            <form action="">
+            <form onSubmit={handleSubmit(handleEdit)}>
+                <input 
+                    type="hidden" 
+                    value={ username } 
+                    {...register("username")}
+                />
                 <div className="mt-3">
-                    <label htmlFor="name" className="block">ชื่อ</label>
+                    <label htmlFor="name" className="block">ชื่อ <Require /></label>
                     <input 
                         type="text" 
                         className="input-field" 
                         required={true}
+                        defaultValue={user?.name}
+                        {...register("name")}
                     />
                 </div>
                 <div className="mt-3">
                     <label htmlFor="description" className="block">คำอธิบายตัวเองสั้นๆ</label>
                     <textarea 
-                        name="description" 
                         id="description" 
                         className="input-field" 
                         rows={2} 
+                        defaultValue={user?.description ?? ""}
+                        {...register("description")}
                     ></textarea>
                 </div>
-                {/* Social */}
-                <div className="mt-3">
+
+                {/* <div className="mt-3">
                     <label htmlFor="facebook" className="block">Facebook</label>
                     <input 
                         type="text" 
@@ -77,7 +106,7 @@ export default function ProfileForm() {
                         type="text" 
                         className="input-field" 
                     />
-                </div>
+                </div> */}
 
                 <div className="mt-3">
                     <button 

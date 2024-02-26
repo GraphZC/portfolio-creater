@@ -1,15 +1,20 @@
 version: '3.8'
 services:
-  mongo:
-    image: mongo:latest
+  postgres:
+    image: postgres:alpine
     environment:
-      MONGO_INITDB_ROOT_USERNAME: ${MONGO_USERNAME}
-      MONGO_INITDB_ROOT_PASSWORD: ${MONGO_PASSWORD}
-    volumes:
-      - portfolio-mongodb:/mongodb
+      POSTGRES_DB: ${DATABASE_NAME}
+      POSTGRES_USER: ${DATABASE_USERNAME}
+      POSTGRES_PASSWORD: ${DATABASE_PASSWORD}
     ports:
-      - ${MONGO_PORT}:27017
+      - ${DATABASE_PORT}:5432
+    volumes:
+      - portfolio-vol-db:/var/lib/postgresql/data
+    networks:
+      - portfolio-network
+networks:
+  portfolio-network:
+    driver: bridge
 volumes:
-  portfolio-mongodb:
+  portfolio-vol-db:
     driver: local
-

@@ -7,9 +7,11 @@ export default function HeaderProfile({ user }: { user: User }) {
         <>
             <div className="flex justify-center mt-[-70px]">
                 <Image
-                    src={profilePicture}
+                    src={user.profilePicture}
+                    width={135}
+                    height={135}
                     alt="profile-picture"
-                    className="w-[135px] h-[135px] rounded-full object-cover p-2 bg-white"
+                    className="rounded-full object-cover p-2 bg-white"
                 />
             </div>
             <div className="text-center">
