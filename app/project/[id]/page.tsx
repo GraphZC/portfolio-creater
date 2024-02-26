@@ -20,6 +20,14 @@ export default function ProjectPage() {
             <h1 className="font-medium text-3xl mb-3">
                 { project.name }
             </h1>
+            {/* Image */}
+            <div className="mt-3">
+                <img 
+                    src={ project.images[0]?.url } 
+                    alt="" 
+                    className="w-full h-auto" 
+                />
+            </div>
             <div className="font-light text-gray-500">
                 { project.type }
             </div>

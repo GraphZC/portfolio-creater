@@ -8,6 +8,9 @@ export async function GET(
     const id = params.id;
 
     const project = await prisma.project.findUnique({
+        include: {
+            images: true
+        },
         where: {
             id
         }

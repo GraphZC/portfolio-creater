@@ -1,7 +1,8 @@
 import projectQueryKeys from "./projectQueryKey";
 import { useQuery } from "@tanstack/react-query";
 import axios from "@/lib/axios/axios.config";
-import { Project } from "@prisma/client";
+import Project from "@/interface/Project";
+
 
 const fetchProject = async (projectname: string) => {
     const { data } = await axios.get<Project>(`/project/${projectname}`);

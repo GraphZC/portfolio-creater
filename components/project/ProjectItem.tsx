@@ -1,28 +1,25 @@
+import Project from "@/interface/Project";
 import Link from "next/link";
 import { FaArrowRight } from "react-icons/fa";
 
 interface ProjectItemProps {
-    projectId: string;
-    name: string;
-    type: string;
+    project: Project
 }
 
 export default function ProjectItem({ 
-    projectId, 
-    name, 
-    type 
+    project
 } : ProjectItemProps) {
     return (
         <Link 
-            href={`/project/${projectId}`}
+            href={`/project/${project.id}`}
             className="flex justify-between px-6 bg-[#07203E] rounded-lg py-4"
         >
             <div>
                 <h2 className="font-medium text-2xl text-[#F7CF4C]">
-                    {name}
+                    {project.name}
                 </h2>
                 <p className="text-white font-extralight text-sm">
-                    {type}
+                    {project.type}
                 </p>
             </div>
             <div

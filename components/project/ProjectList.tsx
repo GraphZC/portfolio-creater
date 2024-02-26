@@ -1,4 +1,4 @@
-import { Project } from "@prisma/client";
+import Project from "@/interface/Project";
 import ProjectItem from "./ProjectItem";
 
 interface ProjectListProps {
@@ -12,9 +12,7 @@ export default function ProjectList({ projects }: ProjectListProps) {
                 return (
                     <ProjectItem 
                         key={index}
-                        projectId={project.id}
-                        name={project.name}
-                        type={project.type}
+                        project={project}
                     />
                 )
             }) }

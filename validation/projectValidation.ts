@@ -7,6 +7,7 @@ export const CreateProjectValidation = z.object({
     description: z.coerce.string().min(1),
     sourceUrl: z.coerce.string(),
     demoUrl: z.coerce.string(),
+    image: z.any()
 });
 
 export type CreateProjectType = z.infer<typeof CreateProjectValidation>

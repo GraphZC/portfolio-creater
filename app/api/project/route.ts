@@ -2,14 +2,40 @@ import { CreateProjectValidation } from "@/validation/projectValidation";
 import { NextRequest, NextResponse } from "next/server";
 import { ZodError } from "zod";
 import prisma from "@/lib/prisma/db";
+import { writeFile } from 'fs/promises'
 
 export async function POST(
     request: NextRequest,
 ) {
     try {
-        const json = await request.json();
+        const formData = await request.formData();
 
-        const payload = CreateProjectValidation.parse(json);
+        const payload = CreateProjectValidation.parse({
+            userId: formData.get('userId'),
+            name: formData.get('name'),
+            type: formData.get('type'),
+            description: formData.get('description'),
+            sourceUrl: formData.get('sourceUrl'),
+            demoUrl: formData.get('demoUrl'),
+            image: formData.get('image')
+        });
+
+        // Upload image to /public/upload
+        const image = formData.get('image') as unknown as File;
+        if (!image) {
+            return NextResponse.json({ error: "No files received." }, { status: 400 });
+        }
+
+
+        const bytes = await image.arrayBuffer();
+        const buffer = Buffer.from(bytes);
+
+        const filename = image.name.split('.').slice(0, -1).join('.');
+        const fileExtension = image.name.split('.').pop();
+        const uploadFilename = `${filename}-${Date.now()}.${fileExtension}`;
+
+        const path = `public/upload/${uploadFilename}`;
+        await writeFile(path, buffer)
 
         const project = await prisma.project.create({
             data: {
@@ -21,6 +47,13 @@ export async function POST(
                 demoUrl: payload.demoUrl,
             }  
         });
+
+        const projectImage = await prisma.projectImage.create({
+            data: {
+                projectId: project.id,
+                url: '/' + path.replace('public/', '')
+            }
+        })
 
         return NextResponse.json({
             ...project

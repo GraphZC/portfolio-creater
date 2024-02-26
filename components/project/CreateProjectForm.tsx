@@ -5,15 +5,16 @@ import { useForm } from "react-hook-form";
 import Require from "../Require";
 import { useSession } from "next-auth/react";
 import BackButton from "../BackButton";
+import { CreateProjectType } from "@/validation/projectValidation";
 
 interface CreateProjectFormProps {
-    handleCreate: (project: Project) => void;
+    handleCreate: (project: CreateProjectType) => void;
 }
 
 export default function CreateProjectForm({
     handleCreate
 }: CreateProjectFormProps) {
-    const { register, handleSubmit, formState: { errors } } = useForm<Project>();
+    const { register, handleSubmit, formState: { errors } } = useForm<CreateProjectType>();
     const { data: user, status  } = useSession();
 
     if (status === 'loading') return <div>Loading...</div>
@@ -58,6 +59,14 @@ export default function CreateProjectForm({
                         {...register("description")}
                     ></textarea>
                 </div>
+                <div className="mt-3">
+                    <label htmlFor="image" className="block">รูปภาพ</label>
+                    <input 
+                        type="file" 
+                        className="input-field" 
+                        {...register("image")}
+                    />
+                </div>
 
                 <div className="mt-3">
                     <label htmlFor="sourceUrl" className="block">URL ของไฟล์ต้นฉบับ</label>
@@ -69,7 +78,7 @@ export default function CreateProjectForm({
                 </div>
 
                 <div className="mt-3">
-                    <label htmlFor="demoUrl" className="block">URL ที่มีการเผยแพร่</label>
+                    <label htmlFor="demoUrl" className="block">URL ของผลงานที่เผยแพร่</label>
                     <input 
                         type="text" 
                         className="input-field" 
